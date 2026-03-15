@@ -3,135 +3,573 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>3D Concept | Premium Experience</title>
-    <link rel="stylesheet" href="style.css">
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
-    <!-- Spline Viewer Script (Added as per Skill Recommendation) -->
-    <script type="module" src="https://unpkg.com/@splinetool/viewer/build/spline-viewer.js"></script>
-</head>
-<body>
+    <title>L'ESSENCE | Editorial Integration</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- GSAP & ScrollTrigger -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    
+    <!-- Lenis Smooth Scroll -->
+    <script defer src="https://unpkg.com/lenis@1.2.3/dist/lenis.min.js"></script>
 
-    <nav id="navbar">
-        <div class="logo">CONCEPT.3D</div>
-        <div class="nav-links">
-            <a href="#features">Features</a>
-            <a href="#about">About</a>
-            <a href="#showcase">Showcase</a>
-            <a href="#contact">Contact</a>
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Base Setup */
+        html, body {
+            background-color: #f4f4f4;
+            color: #1a1a1a;
+            font-family: 'Inter', sans-serif;
+            overscroll-behavior-y: none;
+        }
+        .serif { font-family: 'Playfair Display', serif; }
+        
+        /* Lenis smooth scroll css tweak */
+        html.lenis, html.lenis body {
+            height: auto !important;
+        }
+
+        /* Custom Cursor - Difference mode for editorial feel */
+        #cursor {
+            width: 12px;
+            height: 12px;
+            background: white;
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            mix-blend-mode: difference;
+            transform: translate(-50%, -50%);
+        }
+
+        /* Smooth reveal clip-path */
+        .reveal-img {
+            clip-path: inset(100% 0 0 0);
+        }
+
+        /* Interactive Image Stack (Story Section) */
+        .interactive-img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0;
+            transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .interactive-img.is-active {
+            opacity: 1;
+            z-index: 2;
+        }
+
+        /* Pinned Backgrounds (About Section) */
+        .scroll-bg-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0;
+            transform: scale(1);
+            z-index: 0;
+            pointer-events: none;
+        }
+        .scroll-item {
+            color: rgba(255, 255, 255, 0.3);
+            transition: color 0.4s ease;
+        }
+        .scroll-item.is-active {
+            color: rgba(255, 255, 255, 1);
+        }
+
+        /* Timeline Items (From 1st HTML) */
+        .timeline-item {
+            visibility: hidden; /* Initial state for GSAP */
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-zinc-800 selection:text-white">
+
+    <div id="cursor"></div>
+
+    <!-- Navigation (Integration of 1 and 2) -->
+    <nav class="fixed top-0 w-full z-50 flex justify-between p-8 mix-blend-difference text-white">
+        <div class="text-xl font-bold tracking-tighter cursor-pointer">L'ESSENCE</div>
+        <div class="space-x-8 text-sm uppercase tracking-widest hidden md:flex">
+            <a href="#home" class="hover:italic transition-all">Home</a>
+            <a href="#about" class="hover:italic transition-all">About</a>
+            <a href="#story" class="hover:italic transition-all">Story</a>
         </div>
     </nav>
 
-    <!-- Hero Section Placeholder - Reserved for your Spline Asset -->
-    <section id="hero-section">
-        <div class="hero-placeholder-text">
-            <h2>PLACEHOLDER FOR 3D ASSET</h2>
-            <p>Your Spline scene will go here</p>
-        </div>
-    </section>
-
-    <section id="features">
-        <span class="section-tag">Capabilities</span>
-        <h2 class="section-title">The future of <br>interactive design.</h2>
+    <!-- SECTION 1: THE HOOK (Hero - Spline 3D as fullscreen background) -->
+    <header id="home" style="position:relative; width:100%; height:100vh; overflow:hidden; background:#000;">
         
-        <div class="features-grid">
-            <div class="feature-card">
-                <div class="feature-icon">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+        <!-- Spline 3D Scene - Fullscreen Background -->
+        <iframe 
+            src="https://my.spline.design/glassropescopycopy-P5VIvYBxbDos3eOsPexysq7r-1sZ/"
+            frameborder="0"
+            style="position:absolute; top:0; left:0; width:100%; height:100%; border:none; z-index:0;"
+            title="3D Glass Ropes Scene"
+        ></iframe>
+
+        <!-- Text Overlay — positioned below the Spline ERWALDO title -->
+        <div style="position:absolute; bottom:18%; left:50%; transform:translateX(-50%); z-index:10; pointer-events:none; text-align:center;">
+            <h2 class="opacity-0 hero-title" style="font-family:'Playfair Display',serif; font-size:clamp(1.6rem, 3.5vw, 3.2rem); font-weight:400; letter-spacing:0.15em; text-transform:uppercase; color:#000;">
+                Form <span style="font-style:italic; font-weight:400;">&amp;</span> Feeling
+            </h2>
+        </div>
+
+        <!-- Scroll Indicator -->
+        <div style="position:absolute; bottom:2.5rem; left:50%; transform:translateX(-50%); display:flex; flex-direction:column; align-items:center; z-index:10; pointer-events:none;">
+            <span style="font-size:0.65rem; letter-spacing:0.3em; text-transform:uppercase; color:rgba(255,255,255,0.6); margin-bottom:1rem;">Scroll to Explore</span>
+            <div class="scroll-line" style="width:1px; height:4rem; background:white; transform-origin:top;"></div>
+        </div>
+    </header>
+
+    <!-- SECTION 2: EDITORIAL ABOUT (Grid from 1st HTML, Styled like 2) -->
+    <section id="about" class="py-32 px-10 md:px-20 bg-white">
+
+        <!-- Newsletter CTA -->
+        <div class="max-w-2xl mx-auto mb-28 text-center">
+            <span class="text-xs uppercase tracking-[0.3em] text-zinc-400 block mb-4">Stay in the loop</span>
+            <h3 class="serif text-4xl md:text-5xl mb-4 text-zinc-900">Join Our <span class="italic">Newsletter</span></h3>
+            <p class="text-zinc-500 mb-8 max-w-md mx-auto">Get exclusive insights on design, art direction, and creative innovation — delivered to your inbox.</p>
+
+            <form id="newsletter-form" class="flex flex-col gap-3 max-w-lg mx-auto">
+                <div class="flex flex-col sm:flex-row gap-3">
+                    <input
+                        type="text"
+                        id="nl-name"
+                        placeholder="Your name"
+                        class="w-full sm:w-2/5 h-12 px-5 rounded-full border border-zinc-300 bg-white text-zinc-900 text-sm placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-zinc-900 focus:border-transparent transition-all"
+                    >
+                    <input
+                        type="email"
+                        id="nl-email"
+                        required
+                        placeholder="Your email address"
+                        class="w-full sm:flex-1 h-12 px-5 rounded-full border border-zinc-300 bg-white text-zinc-900 text-sm placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-zinc-900 focus:border-transparent transition-all"
+                    >
                 </div>
-                <h3>Immersive 3D</h3>
-                <p>Fully interactive scenes with real-time physics and environment control directly in the browser.</p>
+                <button
+                    type="submit"
+                    id="nl-submit"
+                    class="h-12 px-8 rounded-full bg-zinc-900 text-white text-sm font-medium tracking-wide uppercase hover:bg-zinc-700 hover:scale-105 active:scale-95 transition-all duration-300 cursor-pointer whitespace-nowrap disabled:opacity-50 disabled:cursor-not-allowed mx-auto"
+                >
+                    Subscribe
+                </button>
+            </form>
+
+            <!-- Feedback message -->
+            <p id="nl-feedback" class="mt-4 text-sm transition-all duration-300 hidden"></p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-20 items-center max-w-7xl mx-auto">
+            <div class="reveal-text">
+                <h2 class="serif text-6xl md:text-7xl mb-12">Art in<br><span class="italic">Motion.</span></h2>
+                <p class="text-lg text-zinc-600 leading-relaxed mb-8 max-w-md">
+                    We are a conceptual design studio focused on the intersection of minimalist aesthetics and high-end editorial photography. Every silhouette we craft, every frame we capture, is designed to evoke profound emotion through profound simplicity.
+                </p>
+                <div class="w-20 h-[1px] bg-zinc-300 mb-8"></div>
+                <p class="text-sm uppercase tracking-widest text-zinc-400 mb-8">Founded for the avant-garde.</p>
+
+                <!-- Social Icon Buttons -->
+                <div class="flex items-center gap-4 flex-wrap">
+                    <!-- Google -->
+                    <button type="button" class="inline-flex items-center justify-center h-10 w-10 rounded-lg border border-zinc-300 bg-transparent hover:bg-zinc-100 hover:scale-[1.2] transition-all duration-300 cursor-pointer focus:outline-none focus:ring-2 focus:ring-zinc-400 focus:ring-offset-2">
+                        <img src="https://images.shadcnspace.com/assets/svgs/icon-google.svg" alt="Google" class="h-4 w-4">
+                    </button>
+                    <!-- GitHub -->
+                    <button type="button" class="inline-flex items-center justify-center h-10 w-10 rounded-lg border border-zinc-300 bg-transparent hover:bg-zinc-100 hover:scale-[1.2] transition-all duration-300 cursor-pointer focus:outline-none focus:ring-2 focus:ring-zinc-400 focus:ring-offset-2">
+                        <img src="https://images.shadcnspace.com/assets/svgs/icon-github.svg" alt="GitHub" class="h-4 w-4">
+                    </button>
+                    <!-- LinkedIn -->
+                    <button type="button" class="inline-flex items-center justify-center h-10 w-10 rounded-lg border border-zinc-300 bg-transparent hover:bg-zinc-100 hover:scale-[1.2] transition-all duration-300 cursor-pointer focus:outline-none focus:ring-2 focus:ring-zinc-400 focus:ring-offset-2">
+                        <img src="https://images.shadcnspace.com/assets/svgs/icon-linkedin.svg" alt="LinkedIn" class="h-4 w-4">
+                    </button>
+                    <!-- Facebook -->
+                    <button type="button" class="inline-flex items-center justify-center h-10 w-10 rounded-lg border border-zinc-300 bg-transparent hover:bg-zinc-100 hover:scale-[1.2] transition-all duration-300 cursor-pointer focus:outline-none focus:ring-2 focus:ring-zinc-400 focus:ring-offset-2">
+                        <img src="https://images.shadcnspace.com/assets/svgs/icon-facebook.svg" alt="Facebook" class="h-4 w-4">
+                    </button>
+                </div>
             </div>
-            <div class="feature-card">
-                <div class="feature-icon">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-                </div>
-                <h3>Blazing Fast</h3>
-                <p>Optimized geometry and lightweight runtimes ensure your 3D assets load at lightning speeds.</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect><line x1="12" y1="18" x2="12.01" y2="18"></line></svg>
-                </div>
-                <h3>Mobile Ready</h3>
-                <p>Responsive designs that gracefully fallback on mobile while maintaining visual excellence.</p>
+            
+            <div class="relative overflow-hidden h-[80vh] reveal-img rounded-sm">
+                <img src="images/about1.png" alt="Editorial Fashion" class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000 ease-in-out">
             </div>
         </div>
     </section>
 
-    <section id="about">
-        <div class="info-section">
-            <div class="info-text">
-                <span class="section-tag">The Vision</span>
-                <h2 class="section-title">Redefining digital boundaries.</h2>
-                <p>We push the envelope of what is possible on the web. By merging traditional web development with modern 3D technology, we create experiences that resonate.</p>
-                <div class="info-stats">
-                    <div class="stat-item">
-                        <h4>99%</h4>
-                        <span>Performance</span>
+    <!-- SECTION 3: STORY INTERACTIVE (Hover Gallery from 2nd HTML) -->
+    <section id="story-interactive" class="min-h-screen py-32 px-10 md:px-20 grid grid-cols-1 md:grid-cols-12 gap-10 items-center bg-[#f4f4f4]">
+        <div class="md:col-span-5 flex flex-col justify-center">
+            <h2 class="serif text-5xl mb-12 text-zinc-800">The Silent <br> Narrative.</h2>
+            
+            <div class="space-y-8 hover-triggers">
+                <div class="trigger-chip group cursor-pointer" data-target="img-default">
+                    <h3 class="text-3xl serif group-hover:italic transition-all">01. The Architecture</h3>
+                    <p class="text-sm text-zinc-400 mt-2">Every curve is a word. Every shadow is a chapter.</p>
+                </div>
+                <div class="w-full h-[1px] bg-zinc-200"></div>
+                
+                <div class="trigger-chip group cursor-pointer" data-target="img-sepia">
+                    <h3 class="text-3xl serif group-hover:italic transition-all">02. The Inhabitation</h3>
+                    <p class="text-sm text-zinc-400 mt-2">Fashion is not just what you wear, but the space you occupy.</p>
+                </div>
+                <div class="w-full h-[1px] bg-zinc-200"></div>
+                
+                <div class="trigger-chip group cursor-pointer" data-target="img-invert">
+                    <h3 class="text-3xl serif group-hover:italic transition-all">03. The Contrast</h3>
+                    <p class="text-sm text-zinc-400 mt-2">Finding balance in the extreme void and mass.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="md:col-span-7 relative w-full h-[85vh] overflow-hidden bg-zinc-200 reveal-img rounded-sm shadow-xl">
+            <img src="images/story.png" class="interactive-img is-active grayscale" id="img-default" alt="Default">
+            <img src="images/story.png" class="interactive-img sepia-[.75] contrast-150" id="img-sepia" alt="Sepia Variant">
+            <img src="images/story.png" class="interactive-img invert grayscale" id="img-invert" alt="Inverted Variant">
+        </div>
+    </section>
+
+    <!-- SECTION 4: STORY TIMELINE (Vertical Flow from 1st HTML) -->
+    <section id="story" class="py-32 px-10 md:px-20 bg-black text-white">
+        <div class="text-center mb-32">
+            <h2 class="serif text-7xl italic opacity-40">Our Narrative</h2>
+        </div>
+        
+        <div class="space-y-64 max-w-6xl mx-auto">
+            <!-- Item 1 -->
+            <div class="timeline-item flex flex-col md:flex-row items-center gap-20">
+                <div class="w-full md:w-1/2 overflow-hidden h-[60vh] rounded-sm shadow-2xl">
+                    <img src="images/about1.png" class="w-full h-full object-cover grayscale hover:scale-105 transition-transform duration-700" alt="Genesis">
+                </div>
+                <div class="w-full md:w-1/2">
+                    <span class="serif text-3xl mb-4 block text-zinc-500">01.</span>
+                    <h3 class="serif text-5xl mb-6">The Genesis</h3>
+                    <p class="text-zinc-400 leading-relaxed text-lg">It started as a whisper in a world full of shouting. We sought out derelict spaces, finding beauty in the stark contrasts of shadow and light. Our first collections were crafted in silence, meant to speak for themselves.</p>
+                </div>
+            </div>
+
+            <!-- Item 2 -->
+            <div class="timeline-item flex flex-col md:flex-row-reverse items-center gap-20">
+                <div class="w-full md:w-1/2 overflow-hidden h-[60vh] rounded-sm shadow-2xl">
+                    <img src="images/about2.png" class="w-full h-full object-cover grayscale hover:scale-105 transition-transform duration-700" alt="Evolution">
+                </div>
+                <div class="w-full md:w-1/2">
+                    <span class="serif text-3xl mb-4 block text-zinc-500">02.</span>
+                    <h3 class="serif text-5xl mb-6">The Evolution</h3>
+                    <p class="text-zinc-400 leading-relaxed text-lg">As our canvas expanded, so did our vision. Merging tactile fabrics with architectural forms, the story transitioned from mere garments to a living, breathing lifestyle. An unapologetic dedication to the avant-garde.</p>
+                </div>
+            </div>
+
+            <!-- Item 3 -->
+            <div class="timeline-item flex flex-col md:flex-row items-center gap-20">
+                <div class="w-full md:w-1/2 overflow-hidden h-[60vh] rounded-sm shadow-2xl">
+                    <img src="images/about3.png" class="w-full h-full object-cover grayscale hover:scale-105 transition-transform duration-700" alt="Present">
+                </div>
+                <div class="w-full md:w-1/2">
+                    <span class="serif text-3xl mb-4 block text-zinc-500">03.</span>
+                    <h3 class="serif text-5xl mb-6">The Present</h3>
+                    <p class="text-zinc-400 leading-relaxed text-lg">Today, L'ESSENCE stands as a testament to the timeless. We continue to challenge boundaries, presenting collections that are curated exhibitions rather than seasonal trends. The story is far from over.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 5: PINNED ABOUT (Dynamic Scroll from 2nd HTML) -->
+    <section id="vision" class="relative bg-black text-white">
+        <div class="sticky top-0 h-screen w-full overflow-hidden z-0">
+            <div class="absolute inset-0 bg-black/70 z-10"></div>
+            <img src="images/about1.png" class="scroll-bg-image grayscale" alt="Bg 1">
+            <img src="images/about2.png" class="scroll-bg-image invert grayscale" alt="Bg 2">
+            <img src="images/about3.png" class="scroll-bg-image sepia contrast-125 brightness-50" alt="Bg 3">
+        </div>
+
+        <div class="relative z-10 -mt-[100vh]">
+            <div class="max-w-5xl mx-auto px-10">
+                <div class="h-[50vh] flex items-end pb-20">
+                     <h3 class="serif text-6xl md:text-9xl tracking-tighter italic opacity-20">Legacy.</h3>
+                </div>
+
+                <div class="scroll-item-container pb-[50vh]">
+                    <div class="scroll-item h-screen flex flex-col justify-center">
+                        <span class="font-mono text-sm tracking-widest mb-4 block">01 / PHILOSOPHY</span>
+                        <h4 class="serif text-5xl md:text-7xl mb-6">Minimalism is the <br>ultimate sophistication.</h4>
+                        <p class="text-xl max-w-xl font-light text-zinc-300">We strip away the noise to find the essence of form. What remains is pure, unadulterated intent.</p>
                     </div>
-                    <div class="stat-item">
-                        <h4>60FPS</h4>
-                        <span>Real-time Rendering</span>
+                    
+                    <div class="scroll-item h-screen flex flex-col justify-center">
+                        <span class="font-mono text-sm tracking-widest mb-4 block">02 / CRAFT</span>
+                        <h4 class="serif text-5xl md:text-7xl mb-6">Hand-carved concepts <br>translated to cloth.</h4>
+                        <p class="text-xl max-w-xl font-light text-zinc-300">Our process is slow, deliberate, and permanent. We do not chase seasons; we carve legacies.</p>
+                    </div>
+                    
+                    <div class="scroll-item h-screen flex flex-col justify-center">
+                        <span class="font-mono text-sm tracking-widest mb-4 block">03 / VISION</span>
+                        <h4 class="serif text-5xl md:text-7xl mb-6">Defining the future <br>of aesthetics.</h4>
+                        <p class="text-xl max-w-xl font-light text-zinc-300">Viewed through a lens of classic sculpture and modern brutalist lines, forming the new editorial standard.</p>
                     </div>
                 </div>
             </div>
-            <!-- Mockup for a sub-scene or secondary asset -->
-            <div class="feature-card" style="height: 400px; display: flex; align-items: center; justify-content: center; opacity: 0.5;">
-                <p>Secondary Scene Space</p>
-            </div>
         </div>
     </section>
 
-    <section id="cta" class="cta-section">
-        <h2 class="section-title">Ready to build the future?</h2>
-        <a href="#" class="btn">Get Started Now</a>
-    </section>
-
-    <footer>
-        <div class="logo" style="font-size: 1.1rem; opacity: 0.5;">CONCEPT.3D</div>
-        <p>&copy; 2026 Space Dynamics. All rights reserved.</p>
-        <div class="footer-links">
-            <a href="#">Privacy</a>
-            <a href="#">Terms</a>
-            <a href="#">GitHub</a>
-        </div>
+    <!-- FOOTER -->
+    <footer class="py-32 text-center bg-white">
+        <h2 class="serif text-5xl tracking-widest mb-8">L'ESSENCE</h2>
+        <p class="text-xs uppercase tracking-[0.4em] text-zinc-400">
+            &copy; 2026 L'ESSENCE STUDIO. All Rights Reserved.
+        </p>
     </footer>
 
     <script>
-        // Navbar Scroll Effect
-        window.addEventListener('scroll', () => {
-            const nav = document.getElementById('navbar');
-            if (window.scrollY > 50) {
-                nav.classList.add('scrolled');
-            } else {
-                nav.classList.remove('scrolled');
-            }
-        });
-
-        // Simple Intersection Observer for Fade In
-        const observerOptions = {
-            threshold: 0.1
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
-                }
+        document.addEventListener("DOMContentLoaded", function () {
+            
+            // 1. Lenis Smooth Scrolling
+            const lenis = new Lenis({
+                lerp: 0.1,
+                wheelMultiplier: 0.8,
+                smoothTouch: false
             });
-        }, observerOptions);
 
-        document.querySelectorAll('section').forEach(section => {
-            if (section.id !== 'hero-section') {
-                section.style.opacity = '0';
-                section.style.transform = 'translateY(30px)';
-                section.style.transition = 'all 1s cubic-bezier(0.2, 0.8, 0.2, 1)';
-                observer.observe(section);
+            lenis.on('scroll', ScrollTrigger.update);
+            gsap.ticker.add((time) => {
+                lenis.raf(time * 1000);
+            });
+            gsap.ticker.lagSmoothing(0);
+
+            // 2. Custom Cursor Logic
+            const cursor = document.getElementById('cursor');
+            document.addEventListener('mousemove', e => {
+                gsap.to(cursor, {
+                    x: e.clientX,
+                    y: e.clientY,
+                    duration: 0.2,
+                    ease: "power2.out"
+                });
+            });
+
+            const hoverElements = document.querySelectorAll('a, .trigger-chip, img, .logo');
+            hoverElements.forEach(el => {
+                el.addEventListener('mouseenter', () => gsap.to(cursor, { scale: 4, duration: 0.3 }));
+                el.addEventListener('mouseleave', () => gsap.to(cursor, { scale: 1, duration: 0.3 }));
+            });
+
+            // 3. Hero Animations
+            const tlHero = gsap.timeline();
+            tlHero.to(".hero-title", { opacity: 1, duration: 2, ease: "power4.out", delay: 1 })
+                  .from(".scroll-line", { scaleY: 0, duration: 1, ease: "power2.inOut" }, "-=0.5");
+
+            // 4. Reveal Animations
+            gsap.utils.toArray('.reveal-img').forEach(img => {
+                gsap.to(img, {
+                    scrollTrigger: {
+                        trigger: img,
+                        start: "top 90%",
+                    },
+                    clipPath: "inset(0% 0 0 0)",
+                    duration: 1.5,
+                    ease: "power4.inOut"
+                });
+            });
+
+            // 5. Interactive Hover Gallery (Story Interactive)
+            const triggers = document.querySelectorAll('.trigger-chip');
+            const interactiveImages = document.querySelectorAll('.interactive-img');
+
+            function showImage(targetId) {
+                interactiveImages.forEach(img => {
+                    gsap.killTweensOf(img);
+                    const isTarget = img.id === targetId;
+                    if (isTarget) {
+                        img.classList.add('is-active');
+                        gsap.to(img, { opacity: 1, scale: 1.1, duration: 0.8, ease: "power2.out" });
+                    } else {
+                        img.classList.remove('is-active');
+                        gsap.to(img, { opacity: 0, scale: 1, duration: 0.6, ease: "power2.out" });
+                    }
+                });
             }
+
+            triggers.forEach(trigger => {
+                trigger.addEventListener('mouseenter', () => {
+                    triggers.forEach(t => {
+                        if (t !== trigger) gsap.to(t, { opacity: 0.2, duration: 0.3 });
+                    });
+                    showImage(trigger.getAttribute('data-target'));
+                });
+                trigger.addEventListener('mouseleave', () => {
+                    triggers.forEach(t => gsap.to(t, { opacity: 1, duration: 0.3 }));
+                    showImage('img-default');
+                });
+            });
+
+            // 6. Timeline Reveals (From 1st HTML functionality)
+            gsap.utils.toArray('.timeline-item').forEach(item => {
+                gsap.fromTo(item, 
+                    { opacity: 0, y: 100 },
+                    { 
+                        scrollTrigger: {
+                            trigger: item,
+                            start: "top 80%",
+                        },
+                        opacity: 1, 
+                        y: 0, 
+                        duration: 1.2, 
+                        ease: "power3.out",
+                        onStart: () => { item.style.visibility = "visible"; }
+                    }
+                );
+            });
+
+            // 7. Pinned Background Scroll
+            const scrollItems = gsap.utils.toArray('.scroll-item');
+            const bgImages = gsap.utils.toArray('.scroll-bg-image');
+            let currentBgIndex = -1;
+
+            function activateScrollItem(index) {
+                if (index === currentBgIndex) return;
+                currentBgIndex = index;
+
+                bgImages.forEach((bg, i) => {
+                    gsap.to(bg, {
+                        opacity: i === index ? 1 : 0,
+                        scale: i === index ? 1.1 : 1,
+                        duration: 1,
+                        ease: "power2.inOut"
+                    });
+                });
+
+                scrollItems.forEach((item, i) => {
+                    if (i === index) item.classList.add('is-active');
+                    else item.classList.remove('is-active');
+                });
+            }
+
+            scrollItems.forEach((item, i) => {
+                ScrollTrigger.create({
+                    trigger: item,
+                    start: "top 60%",
+                    end: "bottom 40%",
+                    onEnter: () => activateScrollItem(i),
+                    onEnterBack: () => activateScrollItem(i)
+                });
+            });
+
+            if(bgImages.length > 0) gsap.set(bgImages[0], { opacity: 1, scale: 1.1 });
+
+            // 8. Newsletter Form — Beehiiv + Supabase
+            const SUPABASE_URL = 'https://vgakklwnzvmzbybptldp.supabase.co';
+            const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZnYWtrbHduenZtemJ5YnB0bGRwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI3OTY2ODAsImV4cCI6MjA4ODM3MjY4MH0.xNZzxCbvDrEjw4mGCQHr4U-L8A7duCLjnV7__rXOANA';
+
+            const nlForm = document.getElementById('newsletter-form');
+            const nlName = document.getElementById('nl-name');
+            const nlEmail = document.getElementById('nl-email');
+            const nlSubmit = document.getElementById('nl-submit');
+            const nlFeedback = document.getElementById('nl-feedback');
+
+            function showFeedback(message, isError = false) {
+                nlFeedback.textContent = message;
+                nlFeedback.className = `mt-4 text-sm transition-all duration-300 ${isError ? 'text-red-500' : 'text-emerald-600'}`;
+                nlFeedback.classList.remove('hidden');
+                setTimeout(() => { nlFeedback.classList.add('hidden'); }, 5000);
+            }
+
+            nlForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const email = nlEmail.value.trim();
+                const name = nlName.value.trim();
+                if (!email) return;
+
+                nlSubmit.disabled = true;
+                nlSubmit.textContent = 'Sending...';
+
+                try {
+                    // Send to Beehiiv, Supabase, and Make webhook in parallel
+                    const [beehiivRes, supabaseRes, makeRes] = await Promise.allSettled([
+                        // Beehiiv
+                        fetch(
+                            'https://api.beehiiv.com/v2/publications/pub_e1314fc7-47f3-404b-ae6e-1d32a856483d/subscriptions',
+                            {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'Authorization': 'Bearer D35hrvWOWDnG15sCoOg1bSKLcKcPZaAYn1mVQaXIfvff3BzjXT5bAs0gIofeF6mi'
+                                },
+                                body: JSON.stringify({
+                                    email: email,
+                                    reactivate_existing: true,
+                                    send_welcome_email: true,
+                                    utm_source: 'website',
+                                    utm_medium: 'organic',
+                                    referring_site: window.location.href
+                                })
+                            }
+                        ),
+                        // Supabase
+                        fetch(
+                            `${SUPABASE_URL}/rest/v1/subscribers`,
+                            {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'apikey': SUPABASE_ANON_KEY,
+                                    'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+                                    'Prefer': 'return=minimal'
+                                },
+                                body: JSON.stringify({
+                                    name: name || null,
+                                    email: email,
+                                    source: 'newsletter',
+                                    page: window.location.pathname || 'integrated_editorial',
+                                    beehiiv_synced: true
+                                })
+                            }
+                        ),
+                        // Make Webhook
+                        fetch(
+                            'https://hook.eu1.make.com/kq45k7ipea9lc5q3d46ynnovprhbt6q8',
+                            {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'x-make-apikey': 'antigravity-secret-2026'
+                                },
+                                body: JSON.stringify({
+                                    name: name || null,
+                                    email: email,
+                                    source: 'newsletter',
+                                    page: window.location.pathname || 'integrated_editorial',
+                                    timestamp: new Date().toISOString()
+                                })
+                            }
+                        )
+                    ]);
+
+                    const beehiivOk = beehiivRes.status === 'fulfilled' && (beehiivRes.value.ok || beehiivRes.value.status === 201);
+                    const supabaseOk = supabaseRes.status === 'fulfilled' && (supabaseRes.value.ok || supabaseRes.value.status === 201);
+
+                    if (beehiivOk || supabaseOk) {
+                        showFeedback('🎉 You\'re in! Check your inbox for a welcome email.');
+                        nlForm.reset();
+                    } else {
+                        showFeedback('Something went wrong. Please try again.', true);
+                    }
+                } catch (error) {
+                    showFeedback('Network error. Please check your connection and try again.', true);
+                }
+
+                nlSubmit.disabled = false;
+                nlSubmit.textContent = 'Subscribe';
+            });
         });
     </script>
 </body>
