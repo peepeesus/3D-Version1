@@ -103,7 +103,7 @@
         <div class="text-xl font-bold tracking-tighter cursor-pointer">L'ESSENCE</div>
         <div class="space-x-8 text-sm uppercase tracking-widest hidden md:flex">
             <a href="#home" class="hover:italic transition-all">Home</a>
-            <a href="#about" class="hover:italic transition-all">About</a>
+            <a href="#about" class="hover:italic transition-all">About Us</a>
             <a href="#story" class="hover:italic transition-all">Story</a>
         </div>
     </nav>
@@ -135,42 +135,6 @@
 
     <!-- SECTION 2: EDITORIAL ABOUT (Grid from 1st HTML, Styled like 2) -->
     <section id="about" class="py-32 px-10 md:px-20 bg-white">
-
-        <!-- Newsletter CTA -->
-        <div class="max-w-2xl mx-auto mb-28 text-center">
-            <span class="text-xs uppercase tracking-[0.3em] text-zinc-400 block mb-4">Stay in the loop</span>
-            <h3 class="serif text-4xl md:text-5xl mb-4 text-zinc-900">Join Our <span class="italic">Newsletter</span></h3>
-            <p class="text-zinc-500 mb-8 max-w-md mx-auto">Get exclusive insights on design, art direction, and creative innovation — delivered to your inbox.</p>
-
-            <form id="newsletter-form" class="flex flex-col gap-3 max-w-lg mx-auto">
-                <div class="flex flex-col sm:flex-row gap-3">
-                    <input
-                        type="text"
-                        id="nl-name"
-                        placeholder="Your name"
-                        class="w-full sm:w-2/5 h-12 px-5 rounded-full border border-zinc-300 bg-white text-zinc-900 text-sm placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-zinc-900 focus:border-transparent transition-all"
-                    >
-                    <input
-                        type="email"
-                        id="nl-email"
-                        required
-                        placeholder="Your email address"
-                        class="w-full sm:flex-1 h-12 px-5 rounded-full border border-zinc-300 bg-white text-zinc-900 text-sm placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-zinc-900 focus:border-transparent transition-all"
-                    >
-                </div>
-                <button
-                    type="submit"
-                    id="nl-submit"
-                    class="h-12 px-8 rounded-full bg-zinc-900 text-white text-sm font-medium tracking-wide uppercase hover:bg-zinc-700 hover:scale-105 active:scale-95 transition-all duration-300 cursor-pointer whitespace-nowrap disabled:opacity-50 disabled:cursor-not-allowed mx-auto"
-                >
-                    Subscribe
-                </button>
-            </form>
-
-            <!-- Feedback message -->
-            <p id="nl-feedback" class="mt-4 text-sm transition-all duration-300 hidden"></p>
-        </div>
-
         <div class="grid grid-cols-1 md:grid-cols-2 gap-20 items-center max-w-7xl mx-auto">
             <div class="reveal-text">
                 <h2 class="serif text-6xl md:text-7xl mb-12">Art in<br><span class="italic">Motion.</span></h2>
@@ -319,6 +283,43 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </section>
+
+    <!-- NEWSLETTER SECTION (Moved to bottom) -->
+    <section class="py-32 px-10 md:px-20 bg-white border-t border-zinc-100">
+        <div class="max-w-2xl mx-auto text-center">
+            <span class="text-xs uppercase tracking-[0.3em] text-zinc-400 block mb-4">Stay in the loop</span>
+            <h3 class="serif text-4xl md:text-5xl mb-4 text-zinc-900">Join Our <span class="italic">Newsletter</span></h3>
+            <p class="text-zinc-500 mb-8 max-w-md mx-auto">Get exclusive insights on design, art direction, and creative innovation — delivered to your inbox.</p>
+
+            <form id="newsletter-form" class="flex flex-col gap-3 max-w-lg mx-auto">
+                <div class="flex flex-col sm:flex-row gap-3">
+                    <input
+                        type="text"
+                        id="nl-name"
+                        placeholder="Your name"
+                        class="w-full sm:w-2/5 h-12 px-5 rounded-full border border-zinc-300 bg-white text-zinc-900 text-sm placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-zinc-900 focus:border-transparent transition-all"
+                    >
+                    <input
+                        type="email"
+                        id="nl-email"
+                        required
+                        placeholder="Your email address"
+                        class="w-full sm:flex-1 h-12 px-5 rounded-full border border-zinc-300 bg-white text-zinc-900 text-sm placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-zinc-900 focus:border-transparent transition-all"
+                    >
+                </div>
+                <button
+                    type="submit"
+                    id="nl-submit"
+                    class="h-12 px-8 rounded-full bg-zinc-900 text-white text-sm font-medium tracking-wide uppercase hover:bg-zinc-700 hover:scale-105 active:scale-95 transition-all duration-300 cursor-pointer whitespace-nowrap disabled:opacity-50 disabled:cursor-not-allowed mx-auto"
+                >
+                    Subscribe
+                </button>
+            </form>
+
+            <!-- Feedback message -->
+            <p id="nl-feedback" class="mt-4 text-sm transition-all duration-300 hidden"></p>
         </div>
     </section>
 
