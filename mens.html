@@ -4,15 +4,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MENS COLLECTION - L'ESSENCE</title>
+    
+    <!-- Scripts -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="shopify-client.js"></script>
+
+    <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    
     <style>
         .serif { font-family: 'Playfair Display', serif; }
-        body { font-family: 'Inter', sans-serif; background-color: #fff; color: #000; }
+        html, body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: #fff; 
+            color: #000; 
+            scroll-behavior: smooth;
+        }
+        .reveal-up { opacity: 0; transform: translateY(30px); }
     </style>
 </head>
-<body class="flex flex-col items-center justify-center min-h-screen text-center p-10">
-    <nav class="fixed top-0 w-full z-50 flex justify-between p-8 text-black">
+<body class="bg-white">
+    <!-- NAV -->
+    <nav class="fixed top-0 w-full z-50 flex justify-between p-8 text-black mix-blend-difference invert">
         <a href="index.html" class="text-xl font-bold tracking-tighter cursor-pointer">L'ESSENCE</a>
         <div class="space-x-8 text-sm uppercase tracking-widest hidden md:flex">
             <a href="index.html" class="hover:italic transition-all">Home</a>
@@ -20,12 +35,42 @@
             <a href="about.html" class="hover:italic transition-all">About Us</a>
         </div>
     </nav>
-    
-    <div class="space-y-6">
-        <h1 class="serif text-6xl md:text-8xl uppercase tracking-tighter">Mens Collection</h1>
-        <p class="uppercase tracking-[0.5em] text-zinc-400">Coming Soon</p>
-        <div class="w-12 h-[1px] bg-black mx-auto mt-10"></div>
-        <a href="index.html" class="inline-block mt-8 text-xs uppercase tracking-widest border-b border-black pb-2 hover:opacity-50 transition-all">Return to Gallery</a>
-    </div>
+
+    <!-- HEADER -->
+    <header class="h-[60vh] flex flex-col items-center justify-center text-center p-10 mt-20">
+        <span class="text-[10px] uppercase tracking-[0.5em] text-zinc-400 mb-4 block reveal-up">Curated Collection</span>
+        <h1 class="serif text-7xl md:text-9xl uppercase tracking-tighter reveal-up">Mens <span class="italic">2026.</span></h1>
+        <div class="w-12 h-[1px] bg-black mt-12 reveal-up"></div>
+    </header>
+
+    <!-- PRODUCT GRID -->
+    <section class="max-w-[120rem] mx-auto px-10 md:px-20 pb-40">
+        <div id="product-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-8 gap-y-20">
+            <!-- DYNAMICALLY LOADED -->
+            <div class="col-span-full py-20 text-center uppercase tracking-widest text-zinc-300 animate-pulse">Loading Collection...</div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="py-24 text-center border-t border-zinc-50 grayscale opacity-30">
+        <h2 class="serif text-4xl tracking-widest mb-8">L'ESSENCE</h2>
+        <a href="index.html" class="text-[10px] uppercase tracking-[0.5em] hover:opacity-50 transition-all">Return to Gallery</a>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            // Initial Reveal
+            gsap.to(".reveal-up", {
+                opacity: 1,
+                y: 0,
+                stagger: 0.1,
+                duration: 1.5,
+                ease: "power4.out"
+            });
+
+            // Initialize Shopify
+            initShopifyCollection('product-grid');
+        });
+    </script>
 </body>
 </html>
